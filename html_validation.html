@@ -24,7 +24,7 @@
     <input type="radio" name="newStudent" value="no" /> No</label>
     <span id="newStudentError" class="error"></span><br />
 
-    <label>College: <input type="text" id="college" pattern=".*\S+.*" title="College is required" /></label>
+    <label>College: <input type="text" id="college" pattern="\S(.*\S)?" title="College is required" /></label>
     <span id="collegeError" class="error"></span><br />
 
     <label>Major: <select id="major">
