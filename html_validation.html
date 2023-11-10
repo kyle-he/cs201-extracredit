@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>School Form</title>
+  <style>
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>School Form</h1>
+  <form id="registrationForm">
+    <label>Email: <input type="email" id="email" pattern="[^@]+@[^\.]+\..+" /></label>
+    <span id="emailError" class="error"></span><br />
+
+    <label>Password: <input type="password" id="password" pattern="^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+){8,}$" /></label>
+    <span id="passwordError" class="error"></span><br />
+
+    <label>Birthday: <input type="date" id="birthday" /></label>
+    <span id="birthdayError" class="error"></span><br />
+
+    <label>New Student?: <input type="radio" name="newStudent" value="yes" /> Yes
+    <input type="radio" name="newStudent" value="no" /> No</label>
+    <span id="newStudentError" class="error"></span><br />
+
+    <label>College: <input type="text" id="college" pattern=".*\S+.*" title="College is required" /></label>
+    <span id="collegeError" class="error"></span><br />
+
+    <label>Major: <select id="major">
+      <option value="Computer Science">Computer Science</option>
+    </select></label><br />
+
+    <label>Favorite Color: <input type="color" id="favoriteColor" value="#ffffff" /></label>
+    <span id="colorError" class="error"></span><br />
+
+    <label><input type="checkbox" id="terms" /> I agree to Terms and Conditions.</label>
+    <span id="termsError" class="error"></span><br />
+
+    <button type="button" onclick="resetForm()">Reset Form</button>
+    <button type="submit">Submit Form</button>
+  </form>
+
+  <script>
+    document.getElementById("registrationForm").addEventListener("submit", function (event) {
+      let isValid = true;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const birthday = new Date(document.getElementById("birthday").value);
+      const newStudent = document.querySelector('input[name="newStudent"]:checked');
+      const college = document.getElementById("college").value;
+      const favoriteColor = document.getElementById("favoriteColor").value;
+      const terms = document.getElementById("terms").checked;
+
+      // Birthday validation
+      if (isNaN(birthday.getTime()) || birthday >= new Date()) {
+        document.getElementById("birthdayError").textContent = "Enter a valid past date";
+        isValid = false;
+      } else {
+        document.getElementById("birthdayError").textContent = "";
+      }
+
+      // New Student validation
+      if (!newStudent) {
+        document.getElementById("newStudentError").textContent = "Please select an option";
+        isValid = false;
+      } else {
+        document.getElementById("newStudentError").textContent = "";
+      }
+
+      // College validation is handled by pattern attribute
+
+      // Favorite Color validation
+      if (favoriteColor === "#000000") {
+        document.getElementById("colorError").textContent = "Black is not allowed";
+        isValid = false;
+      } else {
+        document.getElementById("colorError").textContent = "";
+      }
+
+      // Terms and Conditions validation
+      if (!terms) {
+        document.getElementById("termsError").textContent = "You must accept the terms and conditions";
+        isValid = false;
+      } else {
+        document.getElementById("termsError").textContent = "";
+      }
+
+      if (!isValid) {
+        event.preventDefault();
+      }
+    });
+
+    function resetForm() {
+      document.getElementById("registrationForm").reset();
+      document.getElementById("emailError").textContent = "";
+      document.getElementById("passwordError").textContent = "";
+      document.getElementById("birthdayError").textContent = "";
+      document.getElementById("newStudentError").textContent = "";
+      document.getElementById("collegeError").textContent = "";
+      document.getElementById("colorError").textContent = "";
+      document.getElementById("termsError").textContent = "";
+    }
+  </script>
+</body>
+</html>

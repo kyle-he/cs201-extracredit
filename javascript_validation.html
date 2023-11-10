@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>School Form</title>
+  </head>
+  <body>
+    <h1>School Form</h1>
+    <form id="registrationForm">
+      <label>Email: <input type="email" id="email" /></label
+      ><span id="emailError" class="error"></span><br />
+      <label>Password: <input type="password" id="password" /></label
+      ><span id="passwordError" class="error"></span><br />
+      <label>Birthday: <input type="date" id="birthday" /></label
+      ><span id="birthdayError" class="error"></span><br />
+      <label
+        >New Student?: <input type="radio" name="newStudent" value="yes" /> Yes
+        <input type="radio" name="newStudent" value="no" /> No </label
+      ><span id="newStudentError" class="error"></span><br />
+      <label>College: <input type="text" id="college" /></label
+      ><span id="collegeError" class="error"></span><br />
+      <label
+        >Major:
+        <select id="major">
+          <option value="Computer Science">Computer Science</option>
+          <!-- Add more majors as options here -->
+        </select></label
+      ><br />
+      <label
+        >Favorite Color:
+        <input type="color" id="favoriteColor" value="#ffffff" /></label
+      ><span id="colorError" class="error"></span><br />
+      <label
+        ><input type="checkbox" id="terms" /> I agree to Terms and
+        Conditions.</label
+      ><span id="termsError" class="error"></span><br />
+      <button type="button" onclick="resetForm()">Reset Form</button>
+      <button type="submit">Submit Form</button>
+    </form>
+
+    <script>
+      document
+        .getElementById("registrationForm")
+        .addEventListener("submit", function (event) {
+          let isValid = true;
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const birthday = new Date(document.getElementById("birthday").value);
+          const newStudent = document.querySelector(
+            'input[name="newStudent"]:checked'
+          );
+          const college = document.getElementById("college").value;
+          const favoriteColor = document.getElementById("favoriteColor").value;
+          const terms = document.getElementById("terms").checked;
+
+          if (!email.includes("@") || !email.includes(".")) {
+            document.getElementById("emailError").textContent = "Invalid email";
+            isValid = false;
+          } else {
+            document.getElementById("emailError").textContent = "";
+          }
+
+          let hasNumber = false;
+          for (let char of password) {
+            if (!isNaN(parseInt(char))) {
+              hasNumber = true;
+              break;
+            }
+          }
+
+          if (password.length < 8 || !hasNumber) {
+            document.getElementById("passwordError").textContent =
+              "Password must be at least 8 characters with 1 number";
+            isValid = false;
+          } else {
+            document.getElementById("passwordError").textContent = "";
+          }
+
+          if (isNaN(birthday.getTime()) || birthday >= new Date()) {
+            document.getElementById("birthdayError").textContent =
+              "Enter a valid past date";
+            isValid = false;
+          } else {
+            document.getElementById("birthdayError").textContent = "";
+          }
+
+          if (!newStudent) {
+            document.getElementById("newStudentError").textContent =
+              "Please select an option";
+            isValid = false;
+          } else {
+            document.getElementById("newStudentError").textContent = "";
+          }
+
+          if (!college) {
+            document.getElementById("collegeError").textContent =
+              "College is required";
+            isValid = false;
+          } else {
+            document.getElementById("collegeError").textContent = "";
+          }
+
+          if (favoriteColor === "#000000") {
+            document.getElementById("colorError").textContent =
+              "Black is not allowed";
+            isValid = false;
+          } else {
+            document.getElementById("colorError").textContent = "";
+          }
+
+          if (!terms) {
+            document.getElementById("termsError").textContent =
+              "You must accept the terms and conditions";
+            isValid = false;
+          } else {
+            document.getElementById("termsError").textContent = "";
+          }
+
+          if (!isValid) {
+            event.preventDefault();
+          }
+        });
+
+      function resetForm() {
+        document.getElementById("registrationForm").reset();
+        document.getElementById("emailError").textContent = "";
+        document.getElementById("passwordError").textContent = "";
+        document.getElementById("birthdayError").textContent = "";
+        document.getElementById("newStudentError").textContent = "";
+        document.getElementById("collegeError").textContent = "";
+        document.getElementById("colorError").textContent = "";
+        document.getElementById("termsError").textContent = "";
+      }
+    </script>
+  </body>
+</html>
